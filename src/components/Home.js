@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { home } from './home.scss';
 import Contents from "./Contents";
 
-import EquipImage from '../images/equip.png';
-
 class Home extends Component {
   render() {
     return (

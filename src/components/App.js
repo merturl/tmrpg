@@ -19,13 +19,6 @@ const AsyncGame = importedComponent(
   }
 );
 
-const AsyncThreeScene = importedComponent(
-  () => import(/* webpackChunkName:'DynamicPage' */ './threejs/ThreeScene'),
-  {
-    LoadingComponent: Loading
-  }
-);
-
 const App = () => {
   return (
     <Router>
@@ -33,7 +26,6 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={AsyncHome} />
           <Route exact path="/game" component={AsyncGame} />
-          <Route exact path="/three" component={AsyncThreeScene} />
         </Switch>
       </div>
     </Router>
