@@ -59,9 +59,9 @@ func main() {
 	})
 
 	m.Get("/signup2", func(sess session.Store) string {
-        sess.Set("session", "session middleware")
-        return sess.Get("session").(string)
-    })
+		sess.Set("session", "session middleware")
+		return sess.Get("session").(string)
+	})
 
 	http.HandleFunc("/socket.io/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")

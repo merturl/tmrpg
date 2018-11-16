@@ -113,15 +113,38 @@ function update() {
   const cursors = this.input.keyboard.createCursorKeys();
   player.setVelocity(0, 0);
   if (cursors.up.isDown) {
-    player.setVelocityY(-160);
-    player.anims.play('up', true);
-    last_state = 'up';
-
+    if (cursors.left.isDown) {
+      player.setVelocityY(-160);
+      player.setVelocityX(-160);
+      player.anims.play('up', true);
+      last_state = 'up';
+    } else if (cursors.right.isDown) {
+      player.setVelocityY(-160);
+      player.setVelocityX(160);
+      player.anims.play('up', true);
+      last_state = 'up';
+    } else {
+      player.setVelocityY(-160);
+      player.anims.play('up', true);
+      last_state = 'up';
+    }
   } else if (cursors.down.isDown) {
-    player.setVelocityY(160);
-    player.anims.play('down', true);
-    last_state = 'down';
-
+    if (cursors.left.isDown) {
+      player.setVelocityY(160);
+      player.setVelocityX(-160);
+      player.anims.play('down', true);
+      last_state = 'down';
+    } else if(cursors.right.isDown) {
+      player.setVelocityY(160);
+      player.setVelocityX(160);
+      player.anims.play('down', true);
+      last_state = 'down';
+    } else {
+      player.setVelocityY(160);
+      player.anims.play('down', true);
+      last_state = 'down';
+    }
+    
   } else if (cursors.left.isDown) {
     player.setVelocityX(-160);
     player.anims.play('left', true);
@@ -132,49 +155,17 @@ function update() {
     player.anims.play('right', true);
     last_state = 'right';
 
-  }
-
-  if (cursors.up.isDown && cursors.left.isDown) {
-    player.setVelocityY(-160);
-    player.setVelocityX(-160);
-    player.anims.play('up', true);
-    last_state = 'up';
-
-  } else if (cursors.up.isDown && cursors.right.isDown) {
-    player.setVelocityY(-160);
-    player.setVelocityX(160);
-    player.anims.play('up', true);
-    last_state = 'up';
-
-  } else if (cursors.down.isDown && cursors.left.isDown) {
-    player.setVelocityY(160);
-    player.setVelocityX(-160);
-    player.anims.play('down', true);
-    last_state = 'down';
-
-  } else if (cursors.down.isDown && cursors.right.isDown) {
-    player.setVelocityY(160);
-    player.setVelocityX(160);
-    player.anims.play('down', true);
-    last_state = 'down';
-
-  }
-
-  if (cursors.space.isDown) {
+  } else if (cursors.space.isDown) {
     if (last_state == 'up') {
-      console.log("up");
       player.anims.play('space_up', true);
 
-    } else if(last_state == 'down') {
-      console.log("down");
+    } else if (last_state == 'down') {
       player.anims.play('space_down', true);
 
-    } else if(last_state == 'left') {
-      console.log("left");
+    } else if (last_state == 'left') {
       player.anims.play('space_left', true);
-      
-    } else if(last_state == 'right') {
-      console.log("right");
+
+    } else if (last_state == 'right') {
       player.anims.play('space_right', true);
 
     }
@@ -191,9 +182,7 @@ class PhaserContainer extends Component {
   }
 
   componentDidMount() {
-    console.log(this);
     this.game = new Phaser.Game(config);
-    console.log(this);
   }
 
   componentWillUnmount() {

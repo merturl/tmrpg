@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom';
 import { Card, Icon, Image } from 'semantic-ui-react'
+import Reactlogo from '../images/react.png';
 
 class Contents extends Component {
   render() {
@@ -9,6 +10,7 @@ class Contents extends Component {
       <div>
         <Card.Group>
             <Card>
+                <Image src={Reactlogo} />
                 <Card.Content>
                     <Card.Header>Supra</Card.Header>
                     <Card.Meta>

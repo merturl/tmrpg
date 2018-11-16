@@ -3,6 +3,7 @@ const commonPaths = require('./common-paths');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const config = {
   mode: 'production',
@@ -49,11 +50,12 @@ const config = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['../public/static', '../public/styles', '../public/images'], {allowExternal: true}),
+    new CleanWebpackPlugin(['../public/static', '../public/styles', '../public/images', '../public/assets'], {allowExternal: true}),
+    new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
     new ExtractTextPlugin({
       filename: 'styles/styles.[hash].css',
       allChunks: true
-    })
+    }),
   ]
 };
 
