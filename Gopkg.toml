@@ -27,7 +27,7 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/googollee/go-socket.io"
+  name = "github.com/merturl/go-socket.io"
 
 [[constraint]]
   branch = "master"

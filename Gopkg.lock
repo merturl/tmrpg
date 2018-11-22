@@ -41,20 +41,20 @@
   revision = "e2f255711dcb2ea41e42c6d9d98c172d7edf6509"
 
 [[projects]]
-  branch = "master"
-  digest = "1:3eb026ba34d6dd12b45bb6abd63b4e917ebca8d8f3022a139c0881d900ad1bee"
-  name = "github.com/googollee/go-socket.io"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "c8aeb1ed9b49d7de8fef8662efb18f1d289c5f2e"
-
-[[projects]]
   digest = "1:7b5c6e2eeaa9ae5907c391a91c132abfd5c9e8a784a341b5625e750c67e6825d"
   name = "github.com/gorilla/websocket"
   packages = ["."]
   pruneopts = "UT"
   revision = "66b9c49e59c6c48f0ffce28c2d8b8a5678502c6d"
   version = "v1.4.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:7770cf1b3cf122a58b46af5bf304afffced92d1939c3a2e5c60e2d9205846f9b"
+  name = "github.com/merturl/go-socket.io"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6f78df0971820976d367752688208a50baa0fe17"
 
 [[projects]]
   branch = "master"
@@ -85,7 +85,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/go-macaron/session",
-    "github.com/googollee/go-socket.io",
+    "github.com/merturl/go-socket.io",
     "gopkg.in/macaron.v1",
   ]
   solver-name = "gps-cdcl"
