@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import Phaser from "phaser";
 import GameScene from "./scenes/GameScene";
-import io from 'socket.io-client';
 
 class PhaserContainer extends Component {
   game = null;
-  client = null;
 
   constructor(props) {
     super(props);
@@ -17,12 +15,6 @@ class PhaserContainer extends Component {
 
   componentDidMount() {
     console.log("componentDidMount");
-    this.client = io.connect();
-    console.log(this.client);
-    this.client.on('disconnect', function(){
-      console.log("HHHHEEE");
-    });
-
     const config = {
       type: Phaser.AUTO,
       width: 800,
@@ -34,7 +26,7 @@ class PhaserContainer extends Component {
           gravity: { y: 0 }
         }
       },
-      scene: [new GameScene(this.client)]
+      scene: [new GameScene()]
     };
     
     if (!this.game) {
@@ -43,8 +35,9 @@ class PhaserContainer extends Component {
   }
 
   componentWillUnmount() {
+    this.game.scene.destroy('GameScene')
+    this.game.destroy();
     console.log("componentWillUnmount");
-    this.client.disconnect();
   }
 
   render() {
