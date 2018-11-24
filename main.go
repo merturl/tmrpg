@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/merturl/go-socket.io"
@@ -18,6 +19,14 @@ type Player struct {
 	X         int64  `json:"x"`
 	Y         int64  `json:"y"`
 	Direction string `json:"direction"`
+}
+
+func determineListenAddress() (string, error) {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "4000"
+	}
+	return ":" + port, nil
 }
 
 func newSocketioInstance() *socketio.Server {
@@ -109,6 +118,11 @@ func main() {
 	m := newMacaronInstance()
 	server := newSocketioInstance()
 
+	addr, err := determineListenAddress()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	http.HandleFunc("/socket.io/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 		origin := r.Header.Get("Origin")
@@ -116,5 +130,5 @@ func main() {
 		server.ServeHTTP(w, r)
 	})
 	http.Handle("/", m)
-	http.ListenAndServe(":4000", nil)
+	http.ListenAndServe(addr, nil)
 }
