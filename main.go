@@ -89,11 +89,11 @@ func newMacaronInstance() *macaron.Macaron {
 	m.Use(macaron.Recovery())
 
 	// Middlewares
-	// m.Use(macaron.Renderer(macaron.RenderOptions{
-	// 	IndentJSON:      false,
-	// 	Directory:       "public",
-	// 	HTMLContentType: "*/*",
-	// }))
+	m.Use(macaron.Renderer(macaron.RenderOptions{
+		IndentJSON:      false,
+		Directory:       "public",
+		HTMLContentType: "*/*",
+	}))
 	m.Use(macaron.Static("public", macaron.StaticOptions{
 		Prefix:      "",
 		SkipLogging: false,
