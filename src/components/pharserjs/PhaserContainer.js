@@ -15,21 +15,25 @@ class PhaserContainer extends Component {
 
   componentDidMount() {
     console.log("componentDidMount");
-    const config = {
-      type: Phaser.AUTO,
-      width: 800,
-      height: 600,
-      parent: 'phaser-container',
-      physics: {
-        default: 'arcade',
-        arcade: {
-          gravity: { y: 0 }
-        }
-      },
-      scene: [new GameScene()]
-    };
+    let gameScene = new GameScene('GameScene');
+    let config = null;
+    if (gameScene) {
+      config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        parent: 'phaser-container',
+        physics: {
+          default: 'arcade',
+          arcade: {
+            gravity: { y: 0 }
+          }
+        },
+        scene: [gameScene]
+      };
+    }
     
-    if (!this.game) {
+    if (gameScene && config && !this.game) {
       this.game = new Phaser.Game(config);
     }
   }

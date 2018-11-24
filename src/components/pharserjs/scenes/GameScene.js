@@ -4,22 +4,20 @@ import io from 'socket.io-client';
 class GameScene extends Phaser.Scene {
   client = null;
   playerMap = null;
-  constructor(client) {
-    super({ key: 'GameScene' });
+  constructor(sceneName) {
+    super({ key: sceneName });
+    console.log("constructor");
   }
 
   askNewPlayer() {
-    console.log("askNewPlayer");
     this.client.emit('askNewPlayer');
   }
 
   sendKeyDown(pointer) {
-    console.log("sendKeyDown");
     this.client.emit('keydown', JSON.stringify(pointer));
   }
 
   addPlayer(player) {
-    console.log("addPlayer");
     if (!this.playerMap[player.id]) {
       this.playerMap[player.id] = this.physics.add.sprite(player.x, player.y, 'spear_move_up');
       this.playerMap[player.id].setBounce(0.2);
@@ -29,17 +27,13 @@ class GameScene extends Phaser.Scene {
   }
 
   removePlayer(id) {
-    console.log("removePlayer");
     if (this.playerMap[id]) {
       this.playerMap[id].destroy()
-      console.log(this.playerMap[id]);
       delete this.playerMap[id]
-      console.log(this.playerMap[id]);
     }
   }
 
   currentPlayers(players) {
-    console.log("addAllPlayer");
     for (const player of Object.values(players)) {
       if (!this.playerMap[player.id]) {
         this.playerMap[player.id] = this.physics.add.sprite(player.x, player.y, 'spear_move_up');
@@ -51,16 +45,16 @@ class GameScene extends Phaser.Scene {
   }
 
   movePlayer(player) {
-    console.log("movePlayer");
     if (this.playerMap[player.id]) {
       this.playerMap[player.id].x += player.x;
       this.playerMap[player.id].y += player.y;
-      this.playerMap[player.id].anims.play(player.direction, true);
       this.playerMap[player.id].direction = player.direction;
+      this.playerMap[player.id].anims.play(player.direction, true);
     }
   }
 
   init() {
+    console.log("init");
     this.events.on('destroy', this.shutdown, this);
   }
 
@@ -104,14 +98,22 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.client = io();
-    this.playerMap = {};
-    this.client.on('addPlayer', (player) => { this.addPlayer(player) });
-    this.client.on('removePlayer', (player) => { this.removePlayer(player) });
-    this.client.on('currentPlayers', (players) => { this.currentPlayers(players) });
-    this.client.on('movePlayer', (player) => { this.movePlayer(player) });
+    if (!this.client) {
+      this.client = io.connect();
+      this.client.on('addPlayer', (player) => { this.addPlayer(player) });
+      this.client.on('removePlayer', (player) => { this.removePlayer(player) });
+      this.client.on('currentPlayers', (players) => { this.currentPlayers(players) });
+      this.client.on('movePlayer', (player) => { this.movePlayer(player) });
+    }
 
-    this.askNewPlayer();
+    if (!this.client.connected) {
+      this.client.connect();
+    }
+
+    
+    if (!this.playerMap) {
+      this.playerMap = {};
+    }
 
     this.anims.create({
       key: 'up',
@@ -152,6 +154,8 @@ class GameScene extends Phaser.Scene {
       key: 'space_right',
       frames: this.anims.generateFrameNumbers('spear_attack_right', { start: 0, end: 9 }),
     });
+    
+    this.askNewPlayer();
   }
 
   update() {
@@ -234,8 +238,10 @@ class GameScene extends Phaser.Scene {
 
   shutdown() {
     console.log("shutdown");
-    if (!this.client.disconnected) {
-      this.client.disconnect();
+    if(this.client) {
+      if (!this.client.disconnected) {
+        this.client.disconnect();
+      }
     }
   }
 }
