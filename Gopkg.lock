@@ -50,6 +50,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:6bee297215599667a935f4bccbc365aa495f013408c0b494939fd33c2a3e3d1d"
+  name = "github.com/merturl/tmrpg"
+  packages = ["pkg/handler"]
+  pruneopts = "UT"
+  revision = "939665443712a69062fbfb9cf1f5e2f1bf15ffd0"
+
+[[projects]]
+  branch = "master"
   digest = "1:f92f6956e4059f6a3efc14924d2dd58ba90da25cc57fe07ae3779ef2f5e0c5f2"
   name = "golang.org/x/crypto"
   packages = ["pbkdf2"]
@@ -77,6 +85,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/merturl/go-socket.io",
+    "github.com/merturl/tmrpg/pkg/handler",
     "gopkg.in/macaron.v1",
   ]
   solver-name = "gps-cdcl"

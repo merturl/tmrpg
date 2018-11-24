@@ -98,6 +98,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    console.log("create");
     if (!this.client) {
       this.client = io.connect();
       this.client.on('addPlayer', (player) => { this.addPlayer(player) });
@@ -154,7 +155,7 @@ class GameScene extends Phaser.Scene {
       key: 'space_right',
       frames: this.anims.generateFrameNumbers('spear_attack_right', { start: 0, end: 9 }),
     });
-    
+
     this.askNewPlayer();
   }
 
