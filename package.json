@@ -11,7 +11,7 @@
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack -p --env.env=prod",
     "build:bundleanalyzer": "yarn build -- --env.addons=bundleanalyzer",
-    "heroku-prebuild": "yarn build"
+    "heroku-prebuild": "npm run build"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
