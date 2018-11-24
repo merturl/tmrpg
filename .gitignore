@@ -5,6 +5,5 @@ public/static
 public/styles
 public/images
 public/assets
-vendor
 package-lock.json
 yarn.lock
