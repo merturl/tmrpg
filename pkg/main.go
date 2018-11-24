@@ -20,31 +20,24 @@ type Player struct {
 	Direction string `json:"direction"`
 }
 
-//Pointer is pointer
-type Pointer struct {
-	X         int64  `json:"x"`
-	Y         int64  `json:"y"`
-	Direction string `json:"direction"`
-}
-
 func newSocketioInstance() *socketio.Server {
-	var clientIds map[string]Player
+	var clientIds map[string]*Player
 
-	clientIds = make(map[string]Player)
+	clientIds = make(map[string]*Player)
 
 	server, err := socketio.NewServer(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	server.On("connection", func(so socketio.Socket) {
+	go server.On("connection", func(so socketio.Socket) {
 		log.Println("on connection")
 		log.Println(server.Count())
 		log.Println()
 
 		so.Join("GameScene")
 		so.On("askNewPlayer", func() {
-			player := Player{
+			player := &Player{
 				ID:        so.Id(),
 				X:         randomInt63n(100, 400),
 				Y:         randomInt63n(100, 400),
@@ -55,14 +48,14 @@ func newSocketioInstance() *socketio.Server {
 			so.BroadcastTo("GameScene", "addPlayer", player) //send clients newplayer join!
 		})
 		so.On("keydown", func(msg string) {
-			data := &Player{
+			clientIds[so.Id()] = &Player{
 				ID: so.Id(),
 			}
-			err := json.Unmarshal([]byte(msg), data)
+			err := json.Unmarshal([]byte(msg), clientIds[so.Id()])
 			if err != nil {
 				log.Fatal(err)
 			}
-			server.BroadcastTo("GameScene", "movePlayer", data) //send client is move all player
+			server.BroadcastTo("GameScene", "movePlayer", clientIds[so.Id()]) //send client is move all player
 		})
 	})
 
