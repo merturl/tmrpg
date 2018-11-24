@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/merturl/go-socket.io"
-	"github.com/tmrpg/pkg/handler"
+	"github.com/merturl/tmrpg/pkg/handler"
 	"gopkg.in/macaron.v1"
 )
 
