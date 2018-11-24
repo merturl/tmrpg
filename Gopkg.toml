@@ -38,7 +38,7 @@
   branch = "master"
 
 [[constraint]]
-  "github.com/gin-gonic/contrib/static"
+  name = "github.com/gin-gonic/contrib"
   branch = "master"
 
 [prune]
