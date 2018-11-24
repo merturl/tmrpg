@@ -8,6 +8,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/gin-gonic/contrib/static"
+	"github.com/gin-gonic/gin"
 	"github.com/merturl/go-socket.io"
 	"github.com/merturl/tmrpg/pkg/handler"
 	"gopkg.in/macaron.v1"
@@ -110,12 +112,26 @@ func newMacaronInstance() *macaron.Macaron {
 	return m
 }
 
+func newGinInstance() *gin.Engine {
+	router := gin.Default()
+	router.Use(static.Serve("/", static.LocalFile("./public", true)))
+	api := router.Group("/api")
+	{
+		api.GET("/", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "pong",
+			})
+		})
+	}
+	return router
+}
+
 func randomInt63n(low, high int64) int64 {
 	return rand.Int63n(high-low) + low
 }
 
 func main() {
-	m := newMacaronInstance()
+	m := newGinInstance()
 	server := newSocketioInstance()
 
 	addr, err := determineListenAddress()
