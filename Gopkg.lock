@@ -19,14 +19,6 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:4a271dacf7b6e19bcdfafeaedad359b34396826abfb5c646c0a2da4b15f98614"
-  name = "github.com/go-macaron/session"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "068d408f9c54c7fa7fcc5e2bdd3241ab21280c9e"
-
-[[projects]]
-  branch = "master"
   digest = "1:324591cd9122f94cc39a87bd44ec71153672c239e2cff5743bfad96b60be3749"
   name = "github.com/googollee/go-engine.io"
   packages = [
@@ -84,7 +76,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/go-macaron/session",
     "github.com/merturl/go-socket.io",
     "gopkg.in/macaron.v1",
   ]
