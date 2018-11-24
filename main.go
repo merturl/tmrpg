@@ -84,16 +84,16 @@ func newSocketioInstance() *socketio.Server {
 }
 
 func newMacaronInstance() *macaron.Macaron {
-	m := macaron.Classic()
+	m := macaron.New()
 	m.Use(macaron.Logger())
 	m.Use(macaron.Recovery())
 
 	// Middlewares
-	m.Use(macaron.Renderer(macaron.RenderOptions{
-		IndentJSON:      false,
-		Directory:       "public",
-		HTMLContentType: "*/*",
-	}))
+	// m.Use(macaron.Renderer(macaron.RenderOptions{
+	// 	IndentJSON:      false,
+	// 	Directory:       "public",
+	// 	HTMLContentType: "*/*",
+	// }))
 	m.Use(macaron.Static("public", macaron.StaticOptions{
 		Prefix:      "",
 		SkipLogging: false,
