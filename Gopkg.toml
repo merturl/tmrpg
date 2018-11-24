@@ -39,5 +39,5 @@
 
 [metadata.heroku]
   root-package = "github.com/merturl/tmrpg"
-  go-version = "go1.9"
+  go-version = "go1.11.2"
   install = [ "./..." ]
