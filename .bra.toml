@@ -1,6 +1,6 @@
 [run]
 init_cmds = [
-	["go", "run", "./pkg/main.go"],
+	["go", "run", "./main.go"],
 ]									# Commands run in start
 watch_all = true					# Watch all sub-directories
 watch_dirs = [
@@ -14,5 +14,5 @@ build_delay = 3000					# Minimal interval to Trigger build event
 interrupt_timout = 15				# Time to wait until force kill
 graceful_kill = true				# Wait for exit and before directly kill
 cmds = [
-	["go", "run", "./pkg/main.go"],
+	["go", "", "./main.go"],
 ]									# Commands to run
