@@ -84,7 +84,7 @@ func newSocketioInstance() *socketio.Server {
 }
 
 func newMacaronInstance() *macaron.Macaron {
-	m := macaron.New()
+	m := macaron.Classic()
 	m.Use(macaron.Logger())
 	m.Use(macaron.Recovery())
 
