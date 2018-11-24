@@ -131,7 +131,8 @@ func randomInt63n(low, high int64) int64 {
 }
 
 func main() {
-	m := newGinInstance()
+	// m := newGinInstance()
+	m := newMacaronInstance()
 	server := newSocketioInstance()
 
 	addr, err := determineListenAddress()
