@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/contrib/static"
@@ -33,7 +34,7 @@ func determineListenAddress() (string, error) {
 
 func newSocketioInstance() *socketio.Server {
 	var clientIds map[string]*Player
-
+	var mutex = &sync.Mutex{}
 	clientIds = make(map[string]*Player)
 
 	server, err := socketio.NewServer(nil)
@@ -60,6 +61,7 @@ func newSocketioInstance() *socketio.Server {
 		})
 
 		so.On("keydown", func(msg string) {
+			mutex.Lock()
 			clientIds[so.Id()] = &Player{
 				ID: so.Id(),
 			}
@@ -68,6 +70,7 @@ func newSocketioInstance() *socketio.Server {
 				log.Fatal(err)
 			}
 			server.BroadcastTo("GameScene", "movePlayer", clientIds[so.Id()]) //send client is move all player
+			mutex.Unlock()
 		})
 
 		so.On("disconnection", func(so socketio.Socket) {
