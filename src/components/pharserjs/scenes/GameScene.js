@@ -6,7 +6,7 @@ class GameScene extends Phaser.Scene {
   playerMap = null;
   constructor(sceneName) {
     super({ key: sceneName });
-    console.log("constructor");
+    this.playerMap = {};
   }
 
   askNewPlayer() {
@@ -54,7 +54,8 @@ class GameScene extends Phaser.Scene {
   }
 
   init() {
-    console.log("init");
+    console.log(this.game);
+    // this.game.stage.disableVisibilityChange = true;
     this.events.on('destroy', this.shutdown, this);
   }
 
@@ -98,24 +99,6 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    console.log("create");
-    if (!this.client) {
-      this.client = io.connect();
-      this.client.on('addPlayer', (player) => { this.addPlayer(player) });
-      this.client.on('removePlayer', (player) => { this.removePlayer(player) });
-      this.client.on('currentPlayers', (players) => { this.currentPlayers(players) });
-      this.client.on('movePlayer', (player) => { this.movePlayer(player) });
-    }
-
-    if (!this.client.connected) {
-      this.client.connect();
-    }
-
-    
-    if (!this.playerMap) {
-      this.playerMap = {};
-    }
-
     this.anims.create({
       key: 'up',
       frames: this.anims.generateFrameNumbers('spear_move_up', { start: 0, end: 9 }),
@@ -156,7 +139,19 @@ class GameScene extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('spear_attack_right', { start: 0, end: 9 }),
     });
 
-    this.askNewPlayer();
+    if (!this.client) {
+      this.client = io({transports: ['websocket'], upgrade: false});
+      this.client.on('connect', () => { this.askNewPlayer() });
+      this.client.on('disconnect', () => { this.client.disconnect() });
+      this.client.on('addPlayer', (player) => { this.addPlayer(player) });
+      this.client.on('removePlayer', (player) => { this.removePlayer(player) });
+      this.client.on('currentPlayers', (players) => { this.currentPlayers(players) });
+      this.client.on('movePlayer', (player) => { this.movePlayer(player) });
+    }
+
+    if (!this.client.connected) {
+      this.client.connect();
+    }
   }
 
   update() {
