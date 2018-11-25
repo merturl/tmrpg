@@ -41,13 +41,13 @@ func newSocketioInstance() *socketio.Server {
 		log.Fatal(err)
 	}
 
-	go server.On("connection", func(so socketio.Socket) {
+	server.On("connection", func(so socketio.Socket) {
 		log.Println("on connection")
 		log.Println(server.Count())
 		log.Println()
 
-		so.Join("GameScene")
 		so.On("askNewPlayer", func() {
+			so.Join("GameScene")
 			player := &Player{
 				ID:        so.Id(),
 				X:         randomInt63n(100, 400),
@@ -58,6 +58,7 @@ func newSocketioInstance() *socketio.Server {
 			so.Emit("currentPlayers", clientIds)             //render all users
 			so.BroadcastTo("GameScene", "addPlayer", player) //send clients newplayer join!
 		})
+
 		so.On("keydown", func(msg string) {
 			clientIds[so.Id()] = &Player{
 				ID: so.Id(),
@@ -68,14 +69,14 @@ func newSocketioInstance() *socketio.Server {
 			}
 			server.BroadcastTo("GameScene", "movePlayer", clientIds[so.Id()]) //send client is move all player
 		})
-	})
 
-	server.On("disconnection", func(so socketio.Socket) {
-		so.BroadcastTo("GameScene", "removePlayer", so.Id())
-		delete(clientIds, so.Id())
-		so.Leave("GameScene")
-		log.Println("on disconnect")
-		log.Println()
+		so.On("disconnection", func(so socketio.Socket) {
+			server.BroadcastTo("GameScene", "removePlayer", so.Id())
+			delete(clientIds, so.Id())
+			so.Leave("GameScene")
+			log.Println("on disconnect")
+			log.Println()
+		})
 	})
 
 	server.On("error", func(so socketio.Socket, err error) {
