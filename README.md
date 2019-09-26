@@ -20,8 +20,9 @@ yarn prod
 
 # backend
 ### install golang dependency
+```
 dep
-
+```
 ### run backend
 ```
 go run main.go
