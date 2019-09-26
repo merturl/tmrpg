@@ -28,5 +28,5 @@ dep
 go run main.go
 ```
 
-preview run 
+### preview run 
 ![Alt text](https://github.com/merturl/tmrpg/blob/master/image.png?raw=true)
